@@ -8,7 +8,7 @@ Vip_speak-data
     [Documentation]    https://app.91tdgold.com/vip/speak-data
     [Template]    Vip_speak-data_Temp
     TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    25
-    ...    0    1    0
+    ...    0    ${TEST_ROOM_ID}    0
 
 Vip_speak-data_negative
     [Documentation]    https://app.91tdgold.com/vip/speak-data

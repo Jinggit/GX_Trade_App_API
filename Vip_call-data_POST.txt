@@ -1,39 +1,53 @@
 *** Settings ***
-Documentation    https://app.91tdgold.com/vip/call-data
-Force Tags    prod
-Resource    all_api_resource.txt
+Documentation     https://app.91tdgold.com/vip/call-data
+Force Tags        prod
+Resource          all_api_resource.txt
 
 *** Test Cases ***
 Vip_call-data
     [Documentation]    https://app.91tdgold.com/vip/call-data
     [Template]    Vip_call-data_Temp
-    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    25    0    1    0
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    25
+    ...    0    ${TEST_ROOM_ID}    0
 
 Vip_call-data_negative
     [Documentation]    https://app.91tdgold.com/vip/call-data
     [Template]    Vip_call-data_negative_Temp
-    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    20    0    58    0
-    TestData2: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    20    0    ${EMPTY}    0
-    TestData3: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    10    0    58    0
-    TestData4: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    10    0    ${EMPTY}    0
-    TestData5: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    25    0    58    0
-    TestData6: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    25    0    ${EMPTY}    0
-    TestData7: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    20    0    ${EMPTY}    0
-    TestData8: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    ${EMPTY}    0    58    0
-    TestData9: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    ${EMPTY}    0    ${EMPTY}    0
-    TestData10: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    10    0    58    0
+    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    20
+    ...    0    58    0
+    TestData2: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    20
+    ...    0    ${EMPTY}    0
+    TestData3: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    10
+    ...    0    58    0
+    TestData4: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    10
+    ...    0    ${EMPTY}    0
+    TestData5: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    25
+    ...    0    58    0
+    TestData6: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    25
+    ...    0    ${EMPTY}    0
+    TestData7: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    20
+    ...    0    ${EMPTY}    0
+    TestData8: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    ${EMPTY}
+    ...    0    58    0
+    TestData9: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    ${EMPTY}
+    ...    0    ${EMPTY}    0
+    TestData10: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    10
+    ...    0    58    0
 
 *** Keywords ***
 Vip_call-data_Temp
-    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}    ${count}    ${isMore}    ${roomId}    ${startId}
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${count}    ${isMore}    ${roomId}    ${startId}
     Log    ${testdata_info}
     ${resp}=    Login    ${username}    ${password}
     ${resp}=    Vip_call-data    ${resp[4]}    ${count}    ${isMore}    ${roomId}    ${startId}
     Should Be Equal As Strings    ${resp[2]}    ${success}
     Should Be Equal As Strings    ${resp[1]}    ${code}
     Should Be Equal As Strings    ${resp[3]}    ${message}
+
 Vip_call-data_negative_Temp
-    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}    ${count}    ${isMore}    ${roomId}    ${startId}
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${count}    ${isMore}    ${roomId}    ${startId}
     Log    ${testdata_info}
     ${resp}=    Login    ${username}    ${password}
     ${resp}=    Vip_call-data    ${resp[4]}    ${count}    ${isMore}    ${roomId}    ${startId}

@@ -8,7 +8,7 @@ Vip_question-data
     [Documentation]    https://app.91tdgold.com/vip/question-data
     [Template]    Vip_question-data_Temp
     TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    25
-    ...    0    12    1    0
+    ...    0    12    ${TEST_ROOM_ID}    0
 
 Vip_question-data_negative
     [Documentation]    https://app.91tdgold.com/vip/question-data

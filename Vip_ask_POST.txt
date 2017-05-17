@@ -8,7 +8,7 @@ Vip_ask
     [Documentation]    https://app.91tdgold.com/vip/ask
     [Template]    Vip_ask_Temp
     TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    测试一条
-    ...    1
+    ...    ${TEST_ROOM_ID}
 
 Vip_ask_negative
     [Documentation]    https://app.91tdgold.com/vip/ask

@@ -8,7 +8,7 @@ Vip_get-bulletins
     [Documentation]    https://app.91tdgold.com/vip/get-bulletins
     [Template]    Vip_get-bulletins_Temp
     TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    15
-    ...    1    1    0
+    ...    1    ${TEST_ROOM_ID}    0
 
 Vip_get-bulletins_negative
     [Documentation]    https://app.91tdgold.com/vip/get-bulletins

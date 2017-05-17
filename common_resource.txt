@@ -57,3 +57,4 @@ ${GET-HIS-MONEY_URI}    /get-his-money
 ${_MARKET_QUERY_QUOTATION-DETAIL_URI}    //market/query/quotation-detail
 ${_CUSTOMER-MARKET_SET_URI}    //customer-market/set
 ${GET-MONEY_URI}    /get-money
+${TEST_ROOM_ID}    25
