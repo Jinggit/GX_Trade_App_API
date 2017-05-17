@@ -1,0 +1,35 @@
+*** Settings ***
+Documentation     https://trade.91tdgold.com/get-symbol
+Force Tags        prod
+Resource          all_api_resource.txt
+
+*** Test Cases ***
+Get-symbol
+    [Documentation]    https://trade.91tdgold.com/get-symbol
+    [Tags]    notready
+    [Template]    Get-symbol_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}
+
+Get-symbol_negative
+    [Documentation]    https://trade.91tdgold.com/get-symbol
+    [Tags]    notready
+    [Template]    Get-symbol_negative_Temp
+
+*** Keywords ***
+Get-symbol_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Get-symbol    ${resp[4]}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+
+Get-symbol_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Get-symbol    ${resp[4]}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

@@ -1,0 +1,40 @@
+*** Settings ***
+Documentation     https://trade.91tdgold.com/get-hold-total
+Force Tags        prod
+Resource          all_api_resource.txt
+
+*** Test Cases ***
+Get-hold-total
+    [Documentation]    https://trade.91tdgold.com/get-hold-total
+    [Tags]    notready
+    [Template]    Get-hold-total_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    1096071318
+    ...    Au(T+D)
+
+Get-hold-total_negative
+    [Documentation]    https://trade.91tdgold.com/get-hold-total
+    [Tags]    notready
+    [Template]    Get-hold-total_negative_Temp
+    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    15710575586
+    TestData2: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    ${EMPTY}
+
+*** Keywords ***
+Get-hold-total_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${account}    ${symbol}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Get-hold-total    ${resp[4]}    ${account}    ${symbol}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+
+Get-hold-total_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${account}    ${symbol}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Get-hold-total    ${resp[4]}    ${account}    ${symbol}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

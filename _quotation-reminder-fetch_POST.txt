@@ -1,0 +1,34 @@
+*** Settings ***
+Documentation    https://app.91tdgold.com//quotation-reminder-fetch
+Force Tags    prod
+Resource    all_api_resource.txt
+
+*** Test Cases ***
+_quotation-reminder-fetch
+    [Documentation]    https://app.91tdgold.com//quotation-reminder-fetch
+    [Template]    _quotation-reminder-fetch_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    ^USDCNH
+
+_quotation-reminder-fetch_negative
+    [Documentation]    https://app.91tdgold.com//quotation-reminder-fetch
+    [Template]    _quotation-reminder-fetch_negative_Temp
+    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}     xagusdv3
+    TestData2: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}     cuv3
+
+*** Keywords ***
+_quotation-reminder-fetch_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}    ${code}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    _quotation-reminder-fetch    ${resp[4]}    ${code}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+_quotation-reminder-fetch_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}    ${code}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    _quotation-reminder-fetch    ${resp[4]}    ${code}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

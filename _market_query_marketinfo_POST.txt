@@ -1,0 +1,33 @@
+*** Settings ***
+Documentation    https://app.91tdgold.com//market/query/marketInfo
+Force Tags    prod
+Resource    all_api_resource.txt
+
+*** Test Cases ***
+_market_query_marketinfo
+    [Documentation]    https://app.91tdgold.com//market/query/marketInfo
+    [Template]    _market_query_marketinfo_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    TD
+
+_market_query_marketinfo_negative
+    [Documentation]    https://app.91tdgold.com//market/query/marketInfo
+    [Template]    _market_query_marketinfo_negative_Temp
+    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}     ios
+
+*** Keywords ***
+_market_query_marketinfo_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}    ${platform}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    _market_query_marketinfo    ${resp[4]}    ${platform}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+_market_query_marketinfo_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}    ${platform}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    _market_query_marketinfo    ${resp[4]}    ${platform}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

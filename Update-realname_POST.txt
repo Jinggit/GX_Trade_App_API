@@ -1,0 +1,36 @@
+*** Settings ***
+Documentation     https://app.91tdgold.com/update-realName
+Force Tags        prod
+Resource          all_api_resource.txt
+
+*** Test Cases ***
+Update-realname
+    [Documentation]    https://app.91tdgold.com/update-realName
+    [Template]    Update-realname_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    刘娟
+
+Update-realname_negative
+    [Documentation]    https://app.91tdgold.com/update-realName
+    [Tags]    notready
+    [Template]    Update-realname_negative_Temp
+
+*** Keywords ***
+Update-realname_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${realName}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Update-realname    ${resp[4]}    ${realName}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+
+Update-realname_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${realName}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Update-realname    ${resp[4]}    ${realName}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

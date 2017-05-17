@@ -1,0 +1,32 @@
+*** Settings ***
+Documentation    https://app.91tdgold.com//customer-market/fetch
+Force Tags    prod
+Resource    all_api_resource.txt
+
+*** Test Cases ***
+_customer-market_fetch
+    [Documentation]    https://app.91tdgold.com//customer-market/fetch
+    [Template]    _customer-market_fetch_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}
+
+_customer-market_fetch_negative
+    [Documentation]    https://app.91tdgold.com//customer-market/fetch
+    [Template]    _customer-market_fetch_negative_Temp
+
+*** Keywords ***
+_customer-market_fetch_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    _customer-market_fetch    ${resp[4]}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+_customer-market_fetch_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    _customer-market_fetch    ${resp[4]}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

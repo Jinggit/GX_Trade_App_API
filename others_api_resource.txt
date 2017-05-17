@@ -1,0 +1,474 @@
+*** Settings ***
+Resource          public_api_resource.txt
+
+*** Keywords ***
+Guide-list
+    [Arguments]    ${session}    ${number}    ${page}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${GUIDE-LIST_URI}    ${session}    number    ${number}
+    ...    page    ${page}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Vip_ask
+    [Arguments]    ${session}    ${content}    ${roomID}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${VIP_ASK_URI}    ${session}    content    ${content}
+    ...    roomID    ${roomID}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Update-nickname
+    [Arguments]    ${session}    ${nickname}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${UPDATE-NICKNAME_URI}    ${session}    nickname    ${nickname}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Vip_speak-data
+    [Arguments]    ${session}    ${count}    ${isMore}    ${roomId}    ${startId}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${VIP_SPEAK-DATA_URI}    ${session}    count    ${count}
+    ...    isMore    ${isMore}    roomId    ${roomId}    startId    ${startId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+_help
+    [Arguments]    ${session}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${_HELP_URI}    ${session}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+_customer-market_fetch
+    [Arguments]    ${session}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${_CUSTOMER-MARKET_FETCH_URI}    ${session}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Vip_get-bulletins
+    [Arguments]    ${session}    ${count}    ${isLater}    ${roomId}    ${startId}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${VIP_GET-BULLETINS_URI}    ${session}    count    ${count}
+    ...    isLater    ${isLater}    roomId    ${roomId}    startId    ${startId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Get-limit-money-flow
+    [Arguments]    ${session}    ${account}    ${flowFlag}    ${number}    ${page}
+    ${resp}=    Post Request WIth Dict and Token    ${TRADE_API_ROOT_URL}    ${GET-LIMIT-MONEY-FLOW_URI}    ${session}    account    ${account}
+    ...    flowFlag    ${flowFlag}    number    ${number}    page    ${page}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Market_query_quotation-detail
+    [Arguments]    ${session}    ${code}    ${count}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${MARKET_QUERY_QUOTATION-DETAIL_URI}    ${session}    code    ${code}
+    ...    count    ${count}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Login
+    [Arguments]    ${account}    ${password}
+    ${resp}=    Post Request WIth Dict    ${APP_API_ROOT_URL}    ${LOGIN_URI}    account    ${account}    password
+    ...    ${password}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${userToken}=    Run Keyword If    '${success}'!='1'    Set Variable    ${EMPTY}
+    ...    ELSE    Set Variable    ${resp.json()['value']['userToken']}
+    [Return]    ${resp}    ${code}    ${success}    ${message}    ${userToken}
+
+Service-home
+    [Arguments]    ${session}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${SERVICE-HOME_URI}    ${session}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Get-limit-order
+    [Arguments]    ${session}    ${account}    ${status}    ${symbol}
+    ${resp}=    Post Request WIth Dict and Token    ${TRADE_API_ROOT_URL}    ${GET-LIMIT-ORDER_URI}    ${session}    account    ${account}
+    ...    status    ${status}    symbol    ${symbol}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Vip_question-data
+    [Arguments]    ${session}    ${count}    ${isMore}    ${productCode}    ${roomId}    ${startId}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${VIP_QUESTION-DATA_URI}    ${session}    count    ${count}
+    ...    isMore    ${isMore}    productCode    ${productCode}    roomId    ${roomId}
+    ...    startId    ${startId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+My-question-message
+    [Arguments]    ${session}    ${count}    ${isLater}    ${startId}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${MY-QUESTION-MESSAGE_URI}    ${session}    count    ${count}
+    ...    isLater    ${isLater}    startId    ${startId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Get-symbol
+    [Arguments]    ${session}
+    ${resp}=    Post Request WIth Dict and Token    ${TRADE_API_ROOT_URL}    ${GET-SYMBOL_URI}    ${session}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Gx-td-message
+    [Arguments]    ${session}    ${count}    ${isLater}    ${startId}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${GX-TD-MESSAGE_URI}    ${session}    count    ${count}
+    ...    isLater    ${isLater}    startId    ${startId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Vip_live-data
+    [Arguments]    ${session}    ${count}    ${isMore}    ${roomId}    ${startId}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${VIP_LIVE-DATA_URI}    ${session}    count    ${count}
+    ...    isMore    ${isMore}    roomId    ${roomId}    startId    ${startId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Customer-info
+    [Arguments]    ${session}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${CUSTOMER-INFO_URI}    ${session}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Bottom-toast
+    [Arguments]    ${session}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${BOTTOM-TOAST_URI}    ${session}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Market_query_timeline
+    [Arguments]    ${session}    ${code}    ${leval}    ${period}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${MARKET_QUERY_TIMELINE_URI}    ${session}    code    ${code}
+    ...    leval    ${leval}    period    ${period}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Analysis-list
+    [Arguments]    ${session}    ${number}    ${page}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${ANALYSIS-LIST_URI}    ${session}    number    ${number}
+    ...    page    ${page}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Vip_call-data
+    [Arguments]    ${session}    ${count}    ${isMore}    ${roomId}    ${startId}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${VIP_CALL-DATA_URI}    ${session}    count    ${count}
+    ...    isMore    ${isMore}    roomId    ${roomId}    startId    ${startId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Flash-list
+    [Arguments]    ${session}    ${begin}    ${number}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${FLASH-LIST_URI}    ${session}    begin    ${begin}
+    ...    number    ${number}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Vip_speak
+    [Arguments]    ${session}    ${avoidAudit}    ${content}    ${replyTo}    ${roomId}    ${roomType}
+    ...    ${userType}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${VIP_SPEAK_URI}    ${session}    avoidAudit    ${avoidAudit}
+    ...    content    ${content}    replyTo    ${replyTo}    roomId    ${roomId}
+    ...    roomType    ${roomType}    userType    ${userType}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+_market_query_marketinfo
+    [Arguments]    ${session}    ${platform}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${_MARKET_QUERY_MARKETINFO_URI}    ${session}    platform    ${platform}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+_quotation-reminder-set
+    [Arguments]    ${session}    ${bySms}    ${code}    ${lowerBound}    ${upperBound}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${_QUOTATION-REMINDER-SET_URI}    ${session}    bySms    ${bySms}
+    ...    code    ${code}    lowerBound    ${lowerBound}    upperBound    ${upperBound}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+_set-quotation-reminder-sms
+    [Arguments]    ${session}    ${bySms}    ${customerId}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${_SET-QUOTATION-REMINDER-SMS_URI}    ${session}    bySms    ${bySms}
+    ...    customerId    ${customerId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Command
+    [Arguments]    ${session}    ${data}
+    ${resp}=    Post Request WIth Dict and Token    ${TRADE_API_ROOT_URL}    ${COMMAND_URI}    ${session}    data    ${data}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+_dailyfx_week
+    [Arguments]    ${session}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${_DAILYFX_WEEK_URI}    ${session}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+My-call-message
+    [Arguments]    ${session}    ${count}    ${isLater}    ${startId}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${MY-CALL-MESSAGE_URI}    ${session}    count    ${count}
+    ...    isLater    ${isLater}    startId    ${startId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Vip_my-question-data
+    [Arguments]    ${session}    ${count}    ${isMore}    ${roomId}    ${startId}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${VIP_MY-QUESTION-DATA_URI}    ${session}    count    ${count}
+    ...    isMore    ${isMore}    roomId    ${roomId}    startId    ${startId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Market_query_quotation
+    [Arguments]    ${session}    ${code}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${MARKET_QUERY_QUOTATION_URI}    ${session}    code    ${code}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+_quotation-reminder-fetch
+    [Arguments]    ${session}    ${code}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${_QUOTATION-REMINDER-FETCH_URI}    ${session}    code    ${code}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Vip_market-call
+    [Arguments]    ${session}    ${code}    ${isLater}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${VIP_MARKET-CALL_URI}    ${session}    code    ${code}
+    ...    isLater    ${isLater}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Vip_get-room-info
+    [Arguments]    ${session}    ${roomId}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${VIP_GET-ROOM-INFO_URI}    ${session}    roomId    ${roomId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Home
+    [Arguments]    ${session}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${HOME_URI}    ${session}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Update-realname
+    [Arguments]    ${session}    ${realName}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${UPDATE-REALNAME_URI}    ${session}    realName    ${realName}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Get-deal
+    [Arguments]    ${session}    ${account}    ${number}    ${ocFlag}    ${page}
+    ${resp}=    Post Request WIth Dict and Token    ${TRADE_API_ROOT_URL}    ${GET-DEAL_URI}    ${session}    account    ${account}
+    ...    number    ${number}    ocFlag    ${ocFlag}    page    ${page}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+_set-receive-call-status
+    [Arguments]    ${session}    ${customerId}    ${isReceiveCall}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${_SET-RECEIVE-CALL-STATUS_URI}    ${session}    customerId    ${customerId}
+    ...    isReceiveCall    ${isReceiveCall}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Get-hold-total
+    [Arguments]    ${session}    ${account}    ${symbol}
+    ${resp}=    Post Request WIth Dict and Token    ${TRADE_API_ROOT_URL}    ${GET-HOLD-TOTAL_URI}    ${session}    account    ${account}
+    ...    symbol    ${symbol}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Dailyfx_day
+    [Arguments]    ${session}    ${date}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${DAILYFX_DAY_URI}    ${session}    date    ${date}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Get-his-money
+    [Arguments]    ${session}    ${account}    ${number}    ${page}
+    ${resp}=    Post Request WIth Dict and Token    ${TRADE_API_ROOT_URL}    ${GET-HIS-MONEY_URI}    ${session}    account    ${account}
+    ...    number    ${number}    page    ${page}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+_customer-market_set
+    [Arguments]    ${session}    ${productCodes}
+    ${resp}=    Post Request WIth Dict and Token    ${APP_API_ROOT_URL}    ${_CUSTOMER-MARKET_SET_URI}    ${session}    productCodes    ${productCodes}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}
+
+Get-money
+    [Arguments]    ${session}    ${account}
+    ${resp}=    Post Request WIth Dict and Token    ${TRADE_API_ROOT_URL}    ${GET-MONEY_URI}    ${session}    account    ${account}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${code}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['errCode']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword If    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${code}    ${success}    ${message}

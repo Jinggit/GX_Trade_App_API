@@ -1,0 +1,36 @@
+*** Settings ***
+Documentation    https://app.91tdgold.com/login
+Force Tags    prod
+Resource    all_api_resource.txt
+
+*** Test Cases ***
+Login
+    [Documentation]    https://app.91tdgold.com/login
+    [Template]    Login_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}
+
+Login_negative
+    [Documentation]    https://app.91tdgold.com/login
+    [Template]    Login_negative_Temp
+    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    15710575586    123456
+    TestData2: 输入组合测试    ${EMPTY}    1    ${EMPTY}    15710575586    ${EMPTY}
+    TestData3: 输入组合测试    ${EMPTY}    1    ${EMPTY}    15710575586    0
+    TestData4: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${EMPTY}    123456
+    TestData5: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${EMPTY}    ${EMPTY}
+    TestData6: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${EMPTY}    0
+
+*** Keywords ***
+Login_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${account}    ${password}
+    Log    ${testdata_info}
+    ${resp}=    Login        ${account}    ${password}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+Login_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${account}    ${password}
+    Log    ${testdata_info}
+    ${resp}=    Login        ${account}    ${password}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

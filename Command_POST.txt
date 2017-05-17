@@ -1,0 +1,37 @@
+*** Settings ***
+Documentation     https://trade.91tdgold.com/command
+Force Tags        prod
+Resource          all_api_resource.txt
+
+*** Test Cases ***
+Command
+    [Documentation]    https://trade.91tdgold.com/command
+    [Tags]    notready
+    [Template]    Command_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    Y2brBQS4SdCsxg2ZE3D9vWnpkwr4/JIeJG9Ugtne4HvcjQBRf0+XK0mypzm0/+V7j78o4RhDu7ld/EXYrRqoqHxmwf/LQZRYZyub7yw711jiy38cWJMY0AOZ+Wd6iYHBysQTdQG0gFKWAPIVhqqghoB7xt174OoOhZMSomxhOG+WYnsvq9pAhsaPyvHqtIeyyNkKWKEpuUl1iWquHi/vVfviUE+kbqb0HyzHvjWDos3esLl88VuhAy6UpH1H3lDP5+sIEyrRDxTl6Pl3E6E+9gUH7z3GS6mx2B5Ai+mOicMBgsBkyk5ngo3gmlXHxN767XI3fA+lVZU5nlVwJTAYdQ==
+
+Command_negative
+    [Documentation]    https://trade.91tdgold.com/command
+    [Tags]    notready
+    [Template]    Command_negative_Temp
+
+*** Keywords ***
+Command_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${data}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Command    ${resp[4]}    ${data}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+
+Command_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${data}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Command    ${resp[4]}    ${data}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

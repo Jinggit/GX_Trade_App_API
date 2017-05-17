@@ -1,0 +1,40 @@
+*** Settings ***
+Documentation    https://app.91tdgold.com//market/query/quotation-detail
+Force Tags    prod
+Resource    all_api_resource.txt
+
+*** Test Cases ***
+_market_query_quotation-detail
+    [Documentation]    https://app.91tdgold.com//market/query/quotation-detail
+    [Template]    _market_query_quotation-detail_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    XAU    20
+
+_market_query_quotation-detail_negative
+    [Documentation]    https://app.91tdgold.com//market/query/quotation-detail
+    [Template]    _market_query_quotation-detail_negative_Temp
+    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    xagusdv3    20
+    TestData2: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    xagusdv3    10
+    TestData3: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    xagusdv3    25
+    TestData4: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    xagusdv3    ${EMPTY}
+    TestData5: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    cuv3    20
+    TestData6: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    cuv3    10
+    TestData7: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    cuv3    25
+    TestData8: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    cuv3    ${EMPTY}
+
+*** Keywords ***
+_market_query_quotation-detail_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}    ${code}    ${count}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    _market_query_quotation-detail    ${resp[4]}    ${code}    ${count}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+_market_query_quotation-detail_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}    ${code}    ${count}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    _market_query_quotation-detail    ${resp[4]}    ${code}    ${count}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

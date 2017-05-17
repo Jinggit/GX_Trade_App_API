@@ -1,0 +1,43 @@
+*** Settings ***
+Documentation     https://trade.91tdgold.com/get-his-money
+Force Tags        prod
+Resource          all_api_resource.txt
+
+*** Test Cases ***
+Get-his-money
+    [Documentation]    https://trade.91tdgold.com/get-his-money
+    [Tags]    notready
+    [Template]    Get-his-money_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    1096071318
+    ...    20    1
+
+Get-his-money_negative
+    [Documentation]    https://trade.91tdgold.com/get-his-money
+    [Template]    Get-his-money_negative_Temp
+    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    15710575586
+    ...    20    1
+    TestData2: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    ${EMPTY}
+    ...    20    1
+    TestData3: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    ${EMPTY}
+    ...    20    1
+
+*** Keywords ***
+Get-his-money_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${account}    ${number}    ${page}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Get-his-money    ${resp[4]}    ${account}    ${number}    ${page}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+
+Get-his-money_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${account}    ${number}    ${page}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Get-his-money    ${resp[4]}    ${account}    ${number}    ${page}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

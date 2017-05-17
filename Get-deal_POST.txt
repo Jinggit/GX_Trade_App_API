@@ -1,0 +1,44 @@
+*** Settings ***
+Documentation     https://trade.91tdgold.com/get-deal
+Force Tags        prod
+Resource          all_api_resource.txt
+
+*** Test Cases ***
+Get-deal
+    [Documentation]    https://trade.91tdgold.com/get-deal
+    [Tags]    notready
+    [Template]    Get-deal_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    1096071318
+    ...    10    C    1
+
+Get-deal_negative
+    [Documentation]    https://trade.91tdgold.com/get-deal
+    [Tags]    notready
+    [Template]    Get-deal_negative_Temp
+    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    15710575586
+    ...    20    1
+    TestData2: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    ${EMPTY}
+    ...    20    1
+    TestData3: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    ${EMPTY}
+    ...    20    1
+
+*** Keywords ***
+Get-deal_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${account}    ${number}    ${ocFlag}    ${page}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Get-deal    ${resp[4]}    ${account}    ${number}    ${ocFlag}    ${page}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+
+Get-deal_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${account}    ${number}    ${ocFlag}    ${page}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Get-deal    ${resp[4]}    ${account}    ${number}    ${ocFlag}    ${page}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

@@ -1,0 +1,32 @@
+*** Settings ***
+Documentation    https://app.91tdgold.com//dailyfx/week
+Force Tags    prod
+Resource    all_api_resource.txt
+
+*** Test Cases ***
+_dailyfx_week
+    [Documentation]    https://app.91tdgold.com//dailyfx/week
+    [Template]    _dailyfx_week_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}
+
+_dailyfx_week_negative
+    [Documentation]    https://app.91tdgold.com//dailyfx/week
+    [Template]    _dailyfx_week_negative_Temp
+
+*** Keywords ***
+_dailyfx_week_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    _dailyfx_week    ${resp[4]}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+_dailyfx_week_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    _dailyfx_week    ${resp[4]}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

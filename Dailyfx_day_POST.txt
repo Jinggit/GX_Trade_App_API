@@ -1,0 +1,37 @@
+*** Settings ***
+Documentation     https://app.91tdgold.com/dailyfx/day
+Force Tags        prod
+Resource          all_api_resource.txt
+
+*** Test Cases ***
+Dailyfx_day
+    [Documentation]    https://app.91tdgold.com/dailyfx/day
+    [Template]    Dailyfx_day_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    20170510
+
+Dailyfx_day_negative
+    [Documentation]    https://app.91tdgold.com/dailyfx/day
+    [Tags]    notready
+    [Template]    Dailyfx_day_negative_Temp
+    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    20161203
+
+*** Keywords ***
+Dailyfx_day_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${date}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Dailyfx_day    ${resp[4]}    ${date}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+
+Dailyfx_day_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${date}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Dailyfx_day    ${resp[4]}    ${date}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

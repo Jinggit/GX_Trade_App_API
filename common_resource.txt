@@ -1,0 +1,59 @@
+*** Settings ***
+Documentation     全局变量
+
+*** Variables ***
+${APP_API_ROOT_URL}    https://app.91tdgold.com
+${TRADE_API_ROOT_URL}    https://trade.91tdgold.com
+${API_VERSION}    v1.0    # API版本号
+${USER_AGENT}     iOS/8.400000;iPhone 6 (A1549/A1586);beast/2.2.0.4711
+${DEVICE_TOKEN}    04A7DEB91E8C4610B17A638E2EF05CEB
+${CONTENT_TYPE}    application/x-www-form-urlencoded
+${AUTO_USERNAME}    13418751290    # 13418751290
+${AUTO_PASSWORD}    abc123
+${GUIDE-LIST_URI}    /guide-list
+${VIP_ASK_URI}    /vip/ask
+${UPDATE-NICKNAME_URI}    /update-nickname
+${VIP_SPEAK-DATA_URI}    /vip/speak-data
+${_HELP_URI}      //help
+${_CUSTOMER-MARKET_FETCH_URI}    //customer-market/fetch
+${VIP_GET-BULLETINS_URI}    /vip/get-bulletins
+${GET-LIMIT-MONEY-FLOW_URI}    /get-limit-money-flow
+${MARKET_QUERY_QUOTATION-DETAIL_URI}    /market/query/quotation-detail
+${_MARKET_QUERY_TIMELINE_URI}    //market/query/timeline
+${LOGIN_URI}      /login
+${SERVICE-HOME_URI}    /service-home
+${GET-LIMIT-ORDER_URI}    /get-limit-order
+${VIP_QUESTION-DATA_URI}    /vip/question-data
+${MY-QUESTION-MESSAGE_URI}    /my-question-message
+${GET-SYMBOL_URI}    /get-symbol
+${GX-TD-MESSAGE_URI}    /gx-td-message
+${VIP_LIVE-DATA_URI}    /vip/live-data
+${CUSTOMER-INFO_URI}    /customer-info
+${_MARKET_QUERY_QUOTATION_URI}    //market/query/quotation
+${BOTTOM-TOAST_URI}    /bottom-toast
+${MARKET_QUERY_TIMELINE_URI}    /market/query/timeline
+${ANALYSIS-LIST_URI}    /analysis-list
+${VIP_CALL-DATA_URI}    /vip/call-data
+${FLASH-LIST_URI}    /flash-list
+${VIP_SPEAK_URI}    /vip/speak
+${_MARKET_QUERY_MARKETINFO_URI}    //market/query/marketInfo
+${_QUOTATION-REMINDER-SET_URI}    //quotation-reminder-set
+${_SET-QUOTATION-REMINDER-SMS_URI}    //set-quotation-reminder-sms
+${COMMAND_URI}    /command
+${_DAILYFX_WEEK_URI}    //dailyfx/week
+${MY-CALL-MESSAGE_URI}    /my-call-message
+${VIP_MY-QUESTION-DATA_URI}    /vip/my-question-data
+${MARKET_QUERY_QUOTATION_URI}    /market/query/quotation
+${_QUOTATION-REMINDER-FETCH_URI}    //quotation-reminder-fetch
+${VIP_MARKET-CALL_URI}    /vip/market-call
+${VIP_GET-ROOM-INFO_URI}    /vip/get-room-info
+${HOME_URI}       /home
+${UPDATE-REALNAME_URI}    /update-realName
+${GET-DEAL_URI}    /get-deal
+${_SET-RECEIVE-CALL-STATUS_URI}    //set-receive-call-status
+${GET-HOLD-TOTAL_URI}    /get-hold-total
+${DAILYFX_DAY_URI}    /dailyfx/day
+${GET-HIS-MONEY_URI}    /get-his-money
+${_MARKET_QUERY_QUOTATION-DETAIL_URI}    //market/query/quotation-detail
+${_CUSTOMER-MARKET_SET_URI}    //customer-market/set
+${GET-MONEY_URI}    /get-money

@@ -1,0 +1,37 @@
+*** Settings ***
+Documentation    https://app.91tdgold.com//quotation-reminder-set
+Force Tags    prod
+Resource    all_api_resource.txt
+
+*** Test Cases ***
+_quotation-reminder-set
+    [Documentation]    https://app.91tdgold.com//quotation-reminder-set
+    [Template]    _quotation-reminder-set_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    0    ^USDCNH    6.0    6.99
+
+_quotation-reminder-set_negative
+    [Documentation]    https://app.91tdgold.com//quotation-reminder-set
+    [Template]    _quotation-reminder-set_negative_Temp
+    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    0    xagusdv3    5000    3500
+    TestData2: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    0    xagusdv3    5000    3500
+    TestData3: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    0    xagusdv3    5000    3500
+    TestData4: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    0    cuv3    5000    3500
+    TestData5: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    0    xagusdv3    5000    3500
+
+*** Keywords ***
+_quotation-reminder-set_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}    ${bySms}    ${code}    ${lowerBound}    ${upperBound}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    _quotation-reminder-set    ${resp[4]}    ${bySms}    ${code}    ${lowerBound}    ${upperBound}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+_quotation-reminder-set_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}    ${bySms}    ${code}    ${lowerBound}    ${upperBound}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    _quotation-reminder-set    ${resp[4]}    ${bySms}    ${code}    ${lowerBound}    ${upperBound}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

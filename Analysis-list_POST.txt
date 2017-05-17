@@ -1,0 +1,39 @@
+*** Settings ***
+Documentation     https://app.91tdgold.com/analysis-list
+Force Tags        prod
+Resource          all_api_resource.txt
+
+*** Test Cases ***
+Analysis-list
+    [Documentation]    https://app.91tdgold.com/analysis-list
+    [Template]    Analysis-list_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    10
+    ...    1
+
+Analysis-list_negative
+    [Documentation]    https://app.91tdgold.com/analysis-list
+    [Tags]    notready
+    [Template]    Analysis-list_negative_Temp
+    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    20
+    ...    1
+
+*** Keywords ***
+Analysis-list_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${number}    ${page}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Analysis-list    ${resp[4]}    ${number}    ${page}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+
+Analysis-list_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${number}    ${page}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Analysis-list    ${resp[4]}    ${number}    ${page}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}

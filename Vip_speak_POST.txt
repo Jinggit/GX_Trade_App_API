@@ -1,0 +1,49 @@
+*** Settings ***
+Documentation     https://app.91tdgold.com/vip/speak
+Force Tags        prod
+Resource          all_api_resource.txt
+
+*** Test Cases ***
+Vip_speak
+    [Documentation]    https://app.91tdgold.com/vip/speak
+    [Template]    Vip_speak_Temp
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    0
+    ...    测试一条    0    1    0    1
+
+Vip_speak_negative
+    [Documentation]    https://app.91tdgold.com/vip/speak
+    [Tags]    notready
+    [Template]    Vip_speak_negative_Temp
+    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    0
+    ...    0    58    1    1
+    TestData2: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    0
+    ...    0    58    1    1
+    TestData3: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    0
+    ...    0    58    1    1
+    TestData4: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    0
+    ...    0    ${EMPTY}    1    1
+    TestData5: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    0
+    ...    0    ${EMPTY}    1    1
+
+*** Keywords ***
+Vip_speak_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${avoidAudit}    ${content}    ${replyTo}    ${roomId}    ${roomType}    ${userType}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Vip_speak    ${resp[4]}    ${avoidAudit}    ${content}    ${replyTo}    ${roomId}
+    ...    ${roomType}    ${userType}
+    Should Be Equal As Strings    ${resp[2]}    ${success}
+    Should Be Equal As Strings    ${resp[1]}    ${code}
+    Should Be Equal As Strings    ${resp[3]}    ${message}
+
+Vip_speak_negative_Temp
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${avoidAudit}    ${content}    ${replyTo}    ${roomId}    ${roomType}    ${userType}
+    Log    ${testdata_info}
+    ${resp}=    Login    ${username}    ${password}
+    ${resp}=    Vip_speak    ${resp[4]}    ${avoidAudit}    ${content}    ${replyTo}    ${roomId}
+    ...    ${roomType}    ${userType}
+    Should Not Be Equal As Strings    ${resp[2]}    ${success}
+    Should Not Be Equal As Strings    ${resp[1]}    ${code}
+    Should Not Be Equal As Strings    ${resp[3]}    ${message}
