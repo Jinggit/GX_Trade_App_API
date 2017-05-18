@@ -7,7 +7,7 @@ Resource          all_api_resource.txt
 Update-nickname
     [Documentation]    https://app.91tdgold.com/update-nickname
     [Template]    Update-nickname_Temp
-    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    风云绝
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}
 
 Update-nickname_negative
     [Documentation]    https://app.91tdgold.com/update-nickname
@@ -17,9 +17,9 @@ Update-nickname_negative
 *** Keywords ***
 Update-nickname_Temp
     [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
-    ...    ${nickname}
     Log    ${testdata_info}
     ${resp}=    Login    ${username}    ${password}
+    ${nickname}=    Generate Random String    6    [LOWER]
     ${resp}=    Update-nickname    ${resp[4]}    ${nickname}
     Should Be Equal As Strings    ${resp[2]}    ${success}
     Should Be Equal As Strings    ${resp[1]}    ${code}

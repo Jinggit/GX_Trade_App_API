@@ -1,34 +1,44 @@
 *** Settings ***
-Documentation    https://app.91tdgold.com/my-question-message
-Force Tags    prod
-Resource    all_api_resource.txt
+Documentation     https://app.91tdgold.com/my-question-message
+Force Tags        prod
+Resource          all_api_resource.txt
 
 *** Test Cases ***
 My-question-message
     [Documentation]    https://app.91tdgold.com/my-question-message
     [Template]    My-question-message_Temp
-    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    10    1    0
+    TestData01: 登录用户    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    10
+    ...    1    0
 
 My-question-message_negative
     [Documentation]    https://app.91tdgold.com/my-question-message
+    [Tags]    notready
     [Template]    My-question-message_negative_Temp
-    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    20    1    0
-    TestData2: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    10    1    0
-    TestData3: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    25    1    0
-    TestData4: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    ${EMPTY}    1    0
-    TestData5: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    10    1    0
+    TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    20
+    ...    1    0
+    TestData2: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    10
+    ...    1    0
+    TestData3: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    25
+    ...    1    0
+    TestData4: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    ${EMPTY}
+    ...    1    0
+    TestData5: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    10
+    ...    1    0
 
 *** Keywords ***
 My-question-message_Temp
-    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}    ${count}    ${isLater}    ${startId}
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${count}    ${isLater}    ${startId}
     Log    ${testdata_info}
     ${resp}=    Login    ${username}    ${password}
     ${resp}=    My-question-message    ${resp[4]}    ${count}    ${isLater}    ${startId}
     Should Be Equal As Strings    ${resp[2]}    ${success}
     Should Be Equal As Strings    ${resp[1]}    ${code}
     Should Be Equal As Strings    ${resp[3]}    ${message}
+
 My-question-message_negative_Temp
-    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}    ${count}    ${isLater}    ${startId}
+    [Arguments]    ${testdata_info}    ${code}    ${success}    ${message}    ${username}    ${password}
+    ...    ${count}    ${isLater}    ${startId}
     Log    ${testdata_info}
     ${resp}=    Login    ${username}    ${password}
     ${resp}=    My-question-message    ${resp[4]}    ${count}    ${isLater}    ${startId}

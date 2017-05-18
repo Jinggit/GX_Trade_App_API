@@ -12,6 +12,7 @@ Vip_call-data
 
 Vip_call-data_negative
     [Documentation]    https://app.91tdgold.com/vip/call-data
+    [Tags]    notready
     [Template]    Vip_call-data_negative_Temp
     TestData1: 输入组合测试    ${EMPTY}    1    ${EMPTY}    ${AUTO_USERNAME}    ${AUTO_PASSWORD}    20
     ...    0    58    0
